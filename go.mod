@@ -25,7 +25,7 @@ require (
 	github.com/swaggo/gin-swagger v1.2.0 // indirect
 	github.com/swaggo/swag v1.6.5 // indirect
 	github.com/tommy351/gin-sessions v0.0.0-20150617141853-353060947eb6 // indirect
-	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
+	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
 	gopkg.in/go-playground/validator.v9 v9.29.1 // indirect
 )

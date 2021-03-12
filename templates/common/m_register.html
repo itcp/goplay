@@ -7,46 +7,88 @@
         <title>注册</title>
         <!-- 引入 FrozenUI -->
         <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"/>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <div class="ui-form ui-border-t">
-            <form action="">
+            <form id="form" method="post">
                 <div class="ui-form-item ui-border-b">
                     <label>
                         用户名：
                     </label>
-                    <input type="text" >
+                    <input type="text" name="username" id="username">
                     
                 </div>
                 <div class="ui-form-item ui-border-b">
                     <label>
                         请填密码:
                     </label>
-                    <input type="text" placeholder="8位起字母加数字">
+                    <input type="password" placeholder="8位起字母加数字" id="password">
                 </div>
                 <div class="ui-form-item ui-border-b">
                     <label>
                         确认密码:
                     </label>
-                    <input type="text" placeholder="两次要一致">
+                    <input type="password" placeholder="两次要一致" id="fpassword">
                 </div>
                 <div class="ui-form-item ui-border-b">
                     <label>
                         邮箱：
                     </label>
-                    <input type="text" placeholder="非必填，用于找回密码">
+                    <input type="text" placeholder="非必填，用于找回密码" id="email">
                 </div>
                 <div class="ui-btn-wrap">
-                    <button class="ui-btn-lg ui-btn-primary">
+                    <button class="ui-btn-lg ui-btn-primary" type="button" onclick="setreg()">
                         注册
                     </button>
                 </div>
             </form>
         </div>
         <footer class="ui-footer ui-footer-btn">
-            <ul class="ui-tiled ui-border-t">
-                <li data-href="index.html" class="ui-border-r"><div>去登录</div></li>
-            </ul>
+            <a href="/login">
+                <ul class="ui-tiled ui-border-t">
+                    <li data-href="index.html" class="ui-border-r"><div>去登录</div></li>
+                </ul>
+            </a>
         </footer>
+<script>
+function setreg(){
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var fpassword = document.getElementById("fpassword").value;
+    var email = document.getElementById("email").value;
+   
+    if (username == "" || password == "" || fpassword == ""){
+        alert("请填写必要项");
+        return false;
+    }
+    if (password != fpassword) {
+        alert("两次密码不一样");
+        return false;
+    }
+    var data = {
+        "username": username,
+        "password": password,
+        "email": email
+    }
+    axios({
+    method: 'post',
+    url: '/register',
+    data: 'username=' + username + '&password=' + password + '&email=' + email,
+}).then(function(response) {
+    console.log(response.data);
+    var rdata = response.data;
+    if (rdata.status ==1 ){
+        alert("注册成功！")
+    }else if(rdata.status == 3){
+        alert("用户名已使用，请换个用户名！")
+    }else{
+        alert("内部错误，请重新注册！")
+    }
+});
+}
+
+
+</script>
     </body>
 </html>

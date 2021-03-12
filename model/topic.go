@@ -5,7 +5,6 @@ import(
 )
 
 type Topic struct {
-	Model
 	ID        string       `json:"id" gorm:"column:id"`
 	Ttid        string       `json:"ttid" gorm:"column:ttid"`
 	Uid      string    `json:"uid" gorm:"column:uid"`
@@ -18,7 +17,7 @@ type Topic struct {
 	CreatedAt time.Time `json:"create_at" gorm:"column:create_at" description:"创建时间"`
 }
 
-func (f *User) TableName() string {
+func (f *Topic) TableName() string {
 	return "topic_main"
 }
 

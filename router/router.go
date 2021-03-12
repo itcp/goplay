@@ -33,7 +33,9 @@ func InitRouter() *gin.Engine {
 		pubweb.GET("/adduser", controller.AddUser)
 
 		pubweb.GET("/register", user.Register)
+		pubweb.POST("/register", user.RegisterApi)
 		pubweb.GET("/login", user.Login)
+		pubweb.POST("/login", user.LoginApi)
 
 		pubweb.GET("/tlist", topic.List)
 		pubweb.GET("/tdetails", topic.Details)

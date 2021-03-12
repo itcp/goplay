@@ -24,7 +24,7 @@ func LoginCheck() gin.HandlerFunc {
 				"code": code,
 				"msg":  rcode.GetMessage(code),
 			})
-			// c.Redirect(301, "/login.html")
+			c.Redirect(301, "/login")
 			c.Abort()
 			return
 		}
