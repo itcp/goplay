@@ -1,0 +1,23 @@
+title = "TOML Example"
+
+[owner]
+name = "Tom Preston-Werner"
+organization = "GitHub"
+bio = "GitHub Cofounder & CEO\nLikes tater tots and beer."
+dob = 1979-05-27T07:32:00Z # First class dates? Why not?
+
+[database]
+driver_name = "mysql"
+server = "10.0.1.5:3309"
+ports = [ 3309 ]
+connection_max = 5000
+enabled = true
+database_name = "playmate"
+username = "itcp"
+password = "Sime@903"
+
+[redis]
+proxy_list = ["10.0.1.5:6379"]
+max_active = 100
+max_idle = 100
+down_grade = false

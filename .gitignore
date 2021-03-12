@@ -1,0 +1,5 @@
+.idea/*                                                                                                                 .idea                                                                                                                   *.exe                                                                                                                   conf/* 
+main
+vendor/*
+static/*
+logs/*
