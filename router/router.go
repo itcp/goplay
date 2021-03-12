@@ -4,6 +4,7 @@ import (
 	"goplay/controller"
 	"goplay/controller/user"
 	"goplay/controller/topic"
+	"goplay/controller/cbase"
 	"goplay/middleware/auto"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/sessions/cookie"
@@ -37,15 +38,21 @@ func InitRouter() *gin.Engine {
 		pubweb.GET("/login", user.Login)
 		pubweb.POST("/login", user.LoginApi)
 
-		pubweb.GET("/tlist", topic.List)
-		pubweb.GET("/tdetails", topic.Details)
-		pubweb.GET("/add", topic.AddTopic)
-
 	}
 	pubweb.Use(auto.LoginCheck())
 	{
-		//pubweb.GET("/add", topic.AddTopic)	
-		pubweb.POST("/add", topic.AddTopicApi)
+		pubweb.POST("/uploadimg", cbase.UploadImg)
+	}
+
+	topicr := r.Group("/topic")
+	{
+		topicr.GET("/tlist", topic.List)
+		topicr.GET("/tdetails", topic.Details)
+	}
+	topicr.Use(auto.LoginCheck())
+	{
+		topicr.GET("/add", topic.AddTopic)
+		topicr.POST("/add", topic.AddTopicApi)
 	}
 
 	userweb := r.Group("/user")

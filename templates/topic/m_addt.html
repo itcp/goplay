@@ -7,6 +7,7 @@
         <title>详情</title>
         <!-- 引入 FrozenUI -->
         <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"/>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <header class="ui-header ui-header-positive ui-border-b">
@@ -18,10 +19,11 @@
                 <div class="ui-form-item ui-border-b">
                     <label>分类</label>
                     <div class="ui-select">
-                        <select>
-                            <option>服装</option>
-                            <option selected="">电子数码</option>
-                            <option>家具</option>
+                        <select id="type">
+                            <option value="0">选择类型</option>
+                            {{ range.TopicTypeList }}
+                            <option value="{{.ID}}">{{.Name}}</option>
+                            {{ end }}
                         </select>
                     </div>
                 </div>
@@ -29,11 +31,12 @@
                     <label>
                         标题
                     </label>
-                    <input type="text" placeholder="标题">
+                    <input type="text" placeholder="" id="title">
                 </div>
                 <div class="ui-form-item ui-form-item-pure ui-border-b">
-                    <button class="ui-btn ui-btn-primary">上传图片</button>
-                    
+                    <input class="ui-btn ui-btn-primary"  id="inputElement" placeholder="找本地图片" name="file" type="file" accept="image/png, image/gif, image/jpeg"  />
+                    <button class="ui-btn ui-btn-primary" type="button" onclick="upload()">上传图片</button>
+                    <input type="hidden" id="mimg" />
                 </div>
                 <div class="ui-form-item ui-form-item-pure ui-border-b">
                     <label>
@@ -42,7 +45,7 @@
                 </div>
                 <div class="ui-form-item-pure  ui-border-b">
                     
-                    <textarea rows="10" cols="30">
+                    <textarea rows="10" cols="30" id="content">
                        
                         </textarea> 
                 </div>
@@ -52,9 +55,51 @@
         </section>
         
         <footer class="ui-footer ui-footer-btn">
-            <button class="ui-btn-lg ui-btn-primary">
+            <button class="ui-btn-lg ui-btn-primary" onclick="setreg()">
                 提交
             </button>
         </footer>
+<script>
+    function setreg(){
+        var ttype = document.getElementById("type").selectedIndex;
+        var title = document.getElementById("title").value;
+        var content = document.getElementById("content").value;
+        var mimg = document.getElementById("mimg").value;
+        console.log(ttype);
+        if (title == "" || content == "" || ttype == 0){
+            alert("请填写必要项");
+            return false;
+        }
+        axios({
+            method: 'post',
+            url: '/topic/add',
+            data: 'type=' + ttype + '&title=' + title + '&content=' + content + "&mimg=" + mimg,
+        }).then(function(response) {
+            console.log(response.data);
+        });
+    }
+
+    function  upload(){
+        let inputElement = document.getElementById("inputElement")
+        let file = inputElement.files[0];
+
+        let param = new FormData(); // 创建form对象
+        param.append("file", file); // 通过append向form对象添加数据
+
+        //param.append("chunk", "别的数据"); // 添加form表单中其他数据
+        console.log(param.get("file")); // FormData私有类对象，访问不到，可以通过get判断值是否传进去
+
+        let config = {
+        headers: { "Content-Type": "multipart/form-data" }
+        };
+
+        axios.post("/uploadimg", param, config).then(function(response) {
+            let mimg = document.getElementById("mimg");
+            mimg.value = response.data.path;
+            
+        });
+        
+    }
+</script>
     </body>
 </html>

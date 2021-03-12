@@ -60,6 +60,7 @@ func LoginApi(c *gin.Context) {
 	if common.VerifyString(password,theuser.Password ){
 		session := sessions.Default(c)
 		session.Set("username", username)
+		session.Set("uid", theuser.ID)
 		session.Save()
 		Response["status"] = 1
 	}

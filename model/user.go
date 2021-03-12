@@ -49,6 +49,5 @@ func ExistUserByName(username string) bool {
 
 func GetUserByName(username string)(user User, err error){
 	err = db.Model(&User{}).Where("username = ?", username).First(&user).Error
-	//err = db.Model(&User{}).Where("username = ?", username).First(&user).Error
 	return
 }
