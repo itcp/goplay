@@ -79,7 +79,8 @@ function setreg(){
     console.log(response.data);
     var rdata = response.data;
     if (rdata.status ==1 ){
-        alert("注册成功！")
+        alert("注册成功！");
+        location.href = "/login";
     }else if(rdata.status == 3){
         alert("用户名已使用，请换个用户名！")
     }else{

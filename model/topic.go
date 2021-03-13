@@ -70,6 +70,5 @@ func GetPassTopic()(topicList []Topic, err error){
 
 func PassTopic(ptid string, pstatus int)( err error){
 	err = db.Model(&Topic{}).Where("id = ?", ptid).Update("status", pstatus).Error
-	//db.Model(&user).Where("active = ?", true).Update("name", "hello")
 	return
 }

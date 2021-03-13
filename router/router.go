@@ -31,7 +31,7 @@ func InitRouter() *gin.Engine {
 	pubweb := r.Group("")
 	{
 		// 首页
-		pubweb.GET("/", controller.Index)
+		pubweb.GET("/", topic.Index)
 		pubweb.GET("/adduser", controller.AddUser)
 
 		pubweb.GET("/register", user.Register)

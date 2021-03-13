@@ -40,8 +40,13 @@
             <ul class="ui-tiled ui-border-t">
                 <li data-href="index.html" class="ui-border-r"><div>城市</div></li>
                 <li data-href="ui.html" class="ui-border-r"><div>分类</div></li>
-                <li data-href="js.html"><div>登录/注册</div></li>
+                <li data-href="js.html" onclick="getlogin()"><div>登录/注册</div></li>
             </ul>
         </footer>
+<script>
+    function getlogin(){
+        location.href = "/login";
+    }
+</script>
     </body>
 </html>
