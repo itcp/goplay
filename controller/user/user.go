@@ -71,3 +71,25 @@ func LoginApi(c *gin.Context) {
 func Logout(c *gin.Context) {
 	c.JSONP(http.StatusOK, "退出登录")
 }
+
+func AdminLogin(c *gin.Context) {
+
+	c.HTML(http.StatusOK, "m_alogin.html", gin.H{})
+}
+
+func AdminLoginApi(c *gin.Context) {
+	Response := map[string]interface{}{
+		"status": "0",
+		"info": "",
+	}
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	if username == "admin" && password == "play@313" {
+		session := sessions.Default(c)
+		session.Set("username", username)
+		session.Set("uid", "admin")
+		session.Save()
+		Response["status"] = 1
+	}
+	c.JSONP(http.StatusOK, Response)
+}

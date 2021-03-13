@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
+        <title>审核帖子</title>
+        <!-- 引入 FrozenUI -->
+        <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"/>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <style type="text/css">
+        #page_menu > a {margin: 0px 4px;}
+    </style>
+    <body>
+        <header class="ui-header ui-header-positive ui-border-b">
+            <h1>审核帖子</h1>
+        </header>
+
+        <section class="ui-container">
+            <div class="ui-form ui-border-t">
+                <ul class="ui-list ui-border-tb">
+                    {{ range .topicList }}
+                    <li>
+                        <div class=" ui-list-img-vertical">
+                            <span style="background-image:url({{.Mimg}})"></span>
+                        </div>
+                        <div class="ui-list-info ui-border-t">
+                            <h4 class="ui-nowrap">{{.Title}}</h4>
+                            <p class="ui-nowrap">{{.Content}}</p>
+                            <p>
+                                <div class="ui-dialog-ft" id="page_menu">
+                       
+                                <a class="ui-btn" style="background-color:#00a5e0" href="javascript:void(0);" onclick='passt({{.ID}}, 2, this)'>通过</a>
+                             
+                                <a class="ui-btn" style="background-color:#00a5e0" href="javascript:void(0);" onclick='passt({{.ID}}, 3, this)'>不通过</a>
+                                </div>
+                            </p>
+                        </div>
+                        
+                    </li>
+                    {{ end }}
+                    
+                </ul>
+            </div>
+        </section>
+
+        
+        
+        <footer class="ui-footer ui-footer-btn">
+            <ul class="ui-tiled ui-border-t">
+                <li data-href="index.html" class="ui-border-r"><div>城市</div></li>
+                <li data-href="ui.html" class="ui-border-r"><div>分类</div></li>
+                <li data-href="js.html"><div>登录/注册</div></li>
+            </ul>
+        </footer>
+<script>
+    function passt(ptid, pstatus, oDom){
+        
+        axios({
+            method: 'post',
+            url: '/admin/ptopic' ,
+            data: 'ptid=' + ptid + '&pstatus=' + pstatus,
+        }).then(function(response) {
+            if (response.data.status ==1 ){
+                let theli = oDom.parentNode.parentNode.parentNode;
+                theli.remove();
+            };
+        });
+    }
+
+</script>
+    </body>
+</html>

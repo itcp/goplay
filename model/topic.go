@@ -62,3 +62,14 @@ func GetPageTopic(tid, page int)(topicList []Topic, err error){
 	}
 	return
 }
+
+func GetPassTopic()(topicList []Topic, err error){
+	err = db.Model(&Topic{}).Where("status = ?", 1).Find(&topicList).Error
+	return
+}
+
+func PassTopic(ptid string, pstatus int)( err error){
+	err = db.Model(&Topic{}).Where("id = ?", ptid).Update("status", pstatus).Error
+	//db.Model(&user).Where("active = ?", true).Update("name", "hello")
+	return
+}

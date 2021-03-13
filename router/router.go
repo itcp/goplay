@@ -39,7 +39,11 @@ func InitRouter() *gin.Engine {
 		pubweb.GET("/login", user.Login)
 		pubweb.POST("/login", user.LoginApi)
 
+		pubweb.GET("/alogin", user.AdminLogin)
+		pubweb.POST("/alogin", user.AdminLoginApi)
+
 	}
+
 	pubweb.Use(auto.LoginCheck())
 	{
 		pubweb.POST("/uploadimg", cbase.UploadImg)
@@ -63,5 +67,11 @@ func InitRouter() *gin.Engine {
 		userweb.GET("/addt", controller.Addt)	
 	}
 
+	adminr := r.Group("/admin")
+	adminr.Use(auto.ALoginCheck())
+	{
+		adminr.GET("/ptopic", topic.PassTopic)
+		adminr.POST("/ptopic", topic.PassTopicApi)
+	}
 	return r
 }

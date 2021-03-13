@@ -69,3 +69,26 @@ func AddTopicApi(c *gin.Context) {
 	
 	c.JSONP(http.StatusOK, Response)
 }
+
+func PassTopic(c *gin.Context) {
+	topicList, _ := model.GetPassTopic()
+	c.HTML(http.StatusOK, "m_ptlist.html", gin.H{
+		"topicList": topicList,
+	})
+}
+
+func PassTopicApi(c *gin.Context) {
+	Response := map[string]interface{}{
+		"status": 0,
+		"info": "",
+	}
+	ptid := c.PostForm("ptid")
+	pstatus,_ := strconv.Atoi(c.PostForm("pstatus"))
+	err := model.PassTopic(ptid, pstatus)
+	if err != nil{
+		Response["status"] = 2
+		return
+	}
+	Response["status"] = 1
+	c.JSONP(http.StatusOK, Response)
+}

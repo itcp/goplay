@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
+        <title>登录</title>
+        <!-- 引入 FrozenUI -->
+        <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"/>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div class="ui-form ui-border-t">
+            <form action="">
+                <div class="ui-form-item ui-border-b">
+                    <label>
+                        用户名：
+                    </label>
+                    <input type="text" id="username">
+                    
+                </div>
+                <div class="ui-form-item ui-border-b">
+                    <label>
+                        密码:
+                    </label>
+                    <input type="password" id="password">
+                </div>
+                <div class="ui-btn-wrap">
+                    <button class="ui-btn-lg ui-btn-primary" type="button" onclick="setreg()">
+                        登录
+                    </button>
+                </div>
+            </form>
+        </div>
+        <footer class="ui-footer ui-footer-btn">
+            <a href="/register">
+                <ul class="ui-tiled ui-border-t">
+                    <li data-href="index.html" class="ui-border-r"><div>我要注册</div></li>
+                </ul>
+            </a>
+        </footer>
+    <script>
+            function setreg(){
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+               
+                if (username == "" || password == ""){
+                    alert("请填写必要项");
+                    return false;
+                }
+                axios({
+                method: 'post',
+                url: '/alogin',
+                data: 'username=' + username + '&password=' + password ,
+            }).then(function(response) {
+                if (response.data.status == 1){
+                    location.href = "/admin/ptopic";
+                };
+            });
+            }
+            
+            
+    </script>
+    </body>
+</html>
