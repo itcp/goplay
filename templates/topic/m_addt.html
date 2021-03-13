@@ -12,6 +12,7 @@
     <body>
         <header class="ui-header ui-header-positive ui-border-b">
             <h1>发布帖子</h1>
+            <button class="ui-btn" type="button" onclick="logout(this)">退出</button>
         </header>
         <section class="ui-container ui-form">
             <form action="">
@@ -85,8 +86,6 @@
 
         let param = new FormData(); // 创建form对象
         param.append("file", file); // 通过append向form对象添加数据
-
-        //param.append("chunk", "别的数据"); // 添加form表单中其他数据
         console.log(param.get("file")); // FormData私有类对象，访问不到，可以通过get判断值是否传进去
 
         let config = {
@@ -99,6 +98,18 @@
             
         });
         
+    }
+    function logout(oDom){
+        axios({
+            method: 'post',
+            url: '/logout',
+        }).then(function(response) {
+
+            if (response.data.status == 1){
+                oDom.remove();
+                location.href = "/login";
+            };
+        });
     }
 </script>
     </body>

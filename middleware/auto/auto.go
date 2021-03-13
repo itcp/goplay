@@ -10,9 +10,9 @@ import (
 func LoginCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var code int
+		isLogin := false
 		session := sessions.Default(c)
 		username := session.Get("username")
-		isLogin := false
 		if username != nil{
 			isLogin = true
 		}

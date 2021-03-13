@@ -46,6 +46,7 @@ func InitRouter() *gin.Engine {
 
 	pubweb.Use(auto.LoginCheck())
 	{
+		pubweb.POST("/logout", user.Logout)
 		pubweb.POST("/uploadimg", cbase.UploadImg)
 	}
 

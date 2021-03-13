@@ -3,7 +3,6 @@ package user
 import(
 	"github.com/gin-gonic/gin"
 	"net/http"
-	//"fmt"
 	"goplay/model"
 	"github.com/gin-contrib/sessions"
 	"goplay/public/common"
@@ -69,11 +68,20 @@ func LoginApi(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-	c.JSONP(http.StatusOK, "退出登录")
+	Response := map[string]interface{}{
+		"status": "0",
+		"info": "",
+	}
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+	if session.Get("username") == nil {
+		Response["status"] = 1
+	}
+	c.JSONP(http.StatusOK, Response)
 }
 
 func AdminLogin(c *gin.Context) {
-
 	c.HTML(http.StatusOK, "m_alogin.html", gin.H{})
 }
 
