@@ -23,6 +23,7 @@ func InitRouter() *gin.Engine {
 
 	// 推荐使用绝对路径 相当于简历了软连接--快捷方式
 	//r.StaticFS("/static", http.Dir("./static"))
+	r.Static("/static", "./static")
 	//r.StaticFS("/upload", http.Dir("./upload"))
 
 	// 未登录可访问的url

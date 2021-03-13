@@ -24,7 +24,7 @@ func AddUser(username, password, email string) (user *User, err error) {
 	hashPassword, _ := common.BcryptString(password)
 
 	user = &User{
-		ID: getsID(),
+		ID: GetShortID(),
 		Username:  username,
 		Password:  hashPassword,
 		Email:     email,

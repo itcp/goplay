@@ -22,7 +22,7 @@ func (f *Topic) TableName() string {
 }
 
 func AddTopic(topic *Topic) (error) {
-	topic.ID = getsID()
+	topic.ID = GetID()
 	topic.CreatedAt = time.Now()
 	topic.UpdatedAt = time.Now()
 

@@ -4,7 +4,13 @@
 一个信息交流平台，可用于CMS（内容管理平台）、BBS（论坛）、wiki(知识文档管理)使用
 
 #### 软件架构
-基于golang语言开发，主框架由gin + gorm
+后端基于golang语言开发，主框架由gin + gorm
+
+前端是 frozenUI + axios
+
+- frozenUI(http://frozenui.github.io/)
+
+- axios(http://www.axios-js.com)
 
 
 #### 安装教程

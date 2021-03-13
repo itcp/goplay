@@ -8,6 +8,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"time"
 	"github.com/BurntSushi/toml"
+	"strconv"
 )
 
 var db *gorm.DB
@@ -84,15 +85,30 @@ func Increment(table string, id int, colum string) error {
 	return db.Exec("update ? set files_num = files_num + 1 where id = 1", "bbs_post").Error
 }
 
-func getsID() string {
-	str := "0123456789abcdefghijklmnopqrstuvwxyz"
+func GetID() string {
+    str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	bytes := []byte(str)
 	result := []byte{}
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < 9; i++ {
+	for i := 0; i < 4; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
-	return string(result)
+	
+    now := time.Now().Unix()
+    theID := strconv.FormatInt(now,10) + string(result)
+	return theID
 }
 
-
+func GetShortID() string{
+    str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < 3; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
+	}
+	timeTemplate3 := "060102"
+    now := time.Now()
+    theID := now.Format(timeTemplate3) + string(result)
+	return theID
+}

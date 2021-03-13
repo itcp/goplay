@@ -3,9 +3,9 @@ package cbase
 import(
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"fmt"
-	"reflect"
-	//"goplay/public/common"
+	"time"
+	"os"
+	"goplay/model"
 )
 
 func UploadImg(c *gin.Context) {
@@ -15,11 +15,22 @@ func UploadImg(c *gin.Context) {
 		"path": "",
 	}
 	file, _ := c.FormFile("file")
-	fmt.Println(reflect.TypeOf(file))
-	//fmt.Println(reflect.TypeOf(file))
-	theImgPath := "./static/imwf45.jpg"
+	timeTemplate3 := "060102"
+    now := time.Now()
+    stday := now.Format(timeTemplate3) 
+    yearm := stday[0:4]
+    mday := stday[4:]
+	theImgDir := "./static/images/" + yearm + "/" + mday
+	err:=os.MkdirAll(theImgDir, os.ModePerm)
+	if err != nil{
+		Response["status"] = 2
+		return
+	}
+	theImgPath := theImgDir + "/"+ model.GetID() + ".png"
+
 	c.SaveUploadedFile(file, theImgPath)
-	Response["path"] = theImgPath
+	Response["path"] = theImgPath[1:]
+
 	c.JSONP(http.StatusOK, Response)
 }
 
