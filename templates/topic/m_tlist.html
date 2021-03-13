@@ -8,33 +8,39 @@
         <!-- 引入 FrozenUI -->
         <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"/>
     </head>
+    <style type="text/css">
+        #page_menu > a {margin: 0px 4px;}
+    </style>
     <body>
         <header class="ui-header ui-header-positive ui-border-b">
             <h1>列表</h1>
         </header>
+
         <section class="ui-container">
             <div class="ui-form ui-border-t">
                 <ul class="ui-list ui-border-tb">
+                    {{ range .topicList }}
                     <li>
                         <div class=" ui-list-img-vertical">
-                            <span style="background-image:url(http://placeholder.qiniudn.com/216x308)"></span>
+                            <span style="background-image:url({{.Mimg}})"></span>
                         </div>
                         <div class="ui-list-info ui-border-t">
-                            <h4 class="ui-nowrap">这是标题，加ui-nowrap可以超出长度截断</h4>
-                            <p class="ui-nowrap">这是内容，加ui-nowrap可以超出长度截断</p>
+                            <h4 class="ui-nowrap">{{.Title}}</h4>
+                            <p class="ui-nowrap">{{.Content}}</p>
                         </div>
                     </li>
-                    <li>
-                        <div class="ui-list-img-vertical">
-                            <span style="background-image:url(http://placeholder.qiniudn.com/216x308)"></span>
-                        </div>
-                        <div class="ui-list-info ui-border-t">
-                            <h4>标题标题标题标题标题标题标题标题标题标题标题</h4>
-                        </div>
-                    </li>
+                    {{ end }}
                 </ul>
             </div>
         </section>
+        <div class="ui-dialog-ft" id="page_menu">
+            {{if ne .lastPage 0}}
+            <a class="ui-btn" href="/topic/tlist?page={{.lastPage}}&tid={{.tid}}">上一页</a>
+            {{end}}
+            <a class="ui-btn" style="background-color:#00a5e0" href="/topic/tlist?page={{.page}}&tid={{.tid}}">当前页</a>
+            <a class="ui-btn" href="/topic/tlist?page={{.nextPage}}&tid={{.tid}}">下一页</a>
+        </div>
+        
         
         <footer class="ui-footer ui-footer-btn">
             <ul class="ui-tiled ui-border-t">

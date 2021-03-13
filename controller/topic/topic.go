@@ -6,7 +6,7 @@ import(
 	"goplay/model"
 	"github.com/gin-contrib/sessions"
 	"strconv"
-	"fmt"
+	//"fmt"
 )
 
 func Index(c *gin.Context) {
@@ -15,7 +15,16 @@ func Index(c *gin.Context) {
 
 // 列表
 func List(c *gin.Context) {
-	c.HTML(http.StatusOK, "m_tlist.html", gin.H{})
+	tid,_ := strconv.Atoi(c.DefaultQuery("tid", "0"))
+	page,_ := strconv.Atoi(c.DefaultQuery("page", "0"))
+	topicList, _ := model.GetPageTopic(tid, page)
+	c.HTML(http.StatusOK, "m_tlist.html", gin.H{
+		"topicList": topicList,
+		"page": page,
+		"tid": tid,
+		"lastPage": page - 1,
+		"nextPage": page + 1,
+	})
 }
 // 详情页
 func Details(c *gin.Context) {
@@ -51,7 +60,6 @@ func AddTopicApi(c *gin.Context) {
         Mimg: mimg,
         Status: 1,
 	}
-	fmt.Println(theTopic)
 	err := model.AddTopic(theTopic)
 	if err != nil {
 		Response["status"] = 2

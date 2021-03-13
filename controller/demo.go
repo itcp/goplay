@@ -13,6 +13,8 @@ func Index(c *gin.Context) {
 	session.Save()
 	//session.SetSession(c, "username", "itcp")
 	username := session.Get("username")*/
+
+
 	c.AsciiJSON(http.StatusOK, "ok")
 }
 

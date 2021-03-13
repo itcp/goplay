@@ -12,7 +12,7 @@ import (
 
 var db *gorm.DB
 
-const PAGE_SIZE int = 9
+const PAGE_SIZE int = 1
 
 type Model struct {
 	gorm.Model
@@ -94,3 +94,5 @@ func getsID() string {
 	}
 	return string(result)
 }
+
+

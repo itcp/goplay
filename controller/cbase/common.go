@@ -22,3 +22,15 @@ func UploadImg(c *gin.Context) {
 	Response["path"] = theImgPath
 	c.JSONP(http.StatusOK, Response)
 }
+
+// 分页数据结构体
+type PaginationQ struct {
+	Ok    bool        `json:"ok"`
+	Page  uint        `form:"page" json:"page"`  // 请求的页码
+	Data  interface{} `json:"data" comment:"muster be a pointer of slice gorm.Model"` // save pagination list
+	Total uint        `json:"total"`
+}
+/*
+func GetPagination(page, total int)(pageData PaginationQ){
+
+}*/

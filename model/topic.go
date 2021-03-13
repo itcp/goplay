@@ -45,3 +45,20 @@ func GetTopicByID(topicID string)(topic Topic, err error){
 	err = db.Model(&Topic{}).Where("id = ?", topicID).First(&topic).Error
 	return
 }
+
+// 返回分页数据
+func GetPageTopic(tid, page int)(topicList []Topic, err error){
+	size := PAGE_SIZE
+	if page > 1 {
+		page = page - 1
+	}else if page ==1 {
+		page = 0
+	}
+	offsetNum := page * size 
+	if tid == 0 {
+		err = db.Model(&Topic{}).Where("status = ?", 2).Order("create_at desc").Offset(offsetNum).Limit(size).Find(&topicList).Error
+	}else{
+		err = db.Model(&Topic{}).Where("status = ?", 2).Where("ttid = ?", tid).Order("create_at desc").Offset(offsetNum).Limit(size).Find(&topicList).Error
+	}
+	return
+}
