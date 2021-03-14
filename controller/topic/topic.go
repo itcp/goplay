@@ -11,9 +11,16 @@ import(
 )
 
 func Index(c *gin.Context) {
+	isLogin := false
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username != nil{
+		isLogin = true
+	}
 	topicList, _ := model.GetPageTopic(0, 0)
 	typeList, _ := model.GetTopicTypeList()
 	c.HTML(http.StatusOK, "m_index.html", gin.H{
+		"isLogin": isLogin,
 		"typeList": typeList,
 		"topicList": topicList,
 	})
@@ -21,6 +28,12 @@ func Index(c *gin.Context) {
 
 // 列表
 func List(c *gin.Context) {
+	isLogin := false
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username != nil{
+		isLogin = true
+	}
 	tid,_ := strconv.Atoi(c.DefaultQuery("tid", "0"))
 	page,_ := strconv.Atoi(c.DefaultQuery("page", "0"))
 	topicList, _ := model.GetPageTopic(tid, page)
@@ -32,6 +45,7 @@ func List(c *gin.Context) {
 		}
 	}
 	c.HTML(http.StatusOK, "m_tlist.html", gin.H{
+		"isLogin": isLogin,
 		"typeList": typeList,
 		"theTypeName": theTypeName,
 		"topicList": topicList,
@@ -43,12 +57,19 @@ func List(c *gin.Context) {
 }
 // 详情页
 func Details(c *gin.Context) {
+	isLogin := false
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username != nil{
+		isLogin = true
+	}
 	tid := c.Param("tid")
 	fmt.Println(tid)
 	theTopic, _ := model.GetTopicByID(tid)
 	topicImgList, _ := model.GetTopicImgByTid(tid)
 	typeList, _ := model.GetTopicTypeList()
 	c.HTML(http.StatusOK, "m_tcont.html", gin.H{
+		"isLogin": isLogin,
 		"typeList": typeList,
 		"theTopic": theTopic,
 		"timgList": topicImgList,

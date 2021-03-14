@@ -54,7 +54,10 @@
                 data: 'username=' + username + '&password=' + password ,
             }).then(function(response) {
                 if (response.data.status == 1){
+                    alert("登录成功！")
                     location.href = "/";
+                }else{
+                    alert("用户名或密码错误！")
                 };
             });
             }

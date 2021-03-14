@@ -7,10 +7,14 @@
         <title>首页</title>
         <!-- 引入 FrozenUI -->
         <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"/>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <header class="ui-header ui-header-positive ui-border-b">
             <h1>首页</h1>
+            {{if .isLogin}}
+            <button class="ui-btn" type="button" onclick="logout(this)">退出</button>
+            {{end}}
         </header>
         <section class="ui-container">            
             <div class="ui-form ui-border-t">
@@ -36,9 +40,12 @@
         
         <footer class="ui-footer ui-footer-btn">
             <ul class="ui-tiled ui-border-t">
-                <li data-href="index.html" class="ui-border-r" onclick="getlogin('/topic/add')"><div>发布信息</div></li>
                 <li data-href="ui.html" class="ui-border-r" onclick="disk(1)"><div>分类</div></li>
+                {{if .isLogin}}
+                <li data-href="index.html" class="ui-border-r" onclick="getlogin('/topic/add')"><div>发布信息</div></li>
+                {{else}}
                 <li data-href="js.html" onclick="getlogin('/login')"><div>登录/注册</div></li>
+                {{end}}
             </ul>
         </footer>
         <div class="ui-dialog ui-dialog-operate ui-dialog-operate-icon show" id="layk" style="display: none;">
@@ -64,6 +71,17 @@
         }else if(nstatus == 1){
             layk.style.display = "";
         }
+    }
+    function logout(oDom){
+        axios({
+            method: 'post',
+            url: '/logout',
+        }).then(function(response) {
+            if (response.data.status == 1){
+                oDom.remove();
+                location.reload();
+            };
+        });
     }
 </script>
     </body>
