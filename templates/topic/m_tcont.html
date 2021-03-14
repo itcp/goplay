@@ -10,32 +10,49 @@
     </head>
     <body>
         <header class="ui-header ui-header-positive ui-border-b">
-            <h1>详情</h1>
+            <h1>{{.theTopic.Title}}</h1>
         </header>
-        <section class="ui-container">
-            <div class="ui-grid-icon ui-form">
-                <ul>
-                    <li>
-                        <div class="ui-img-icon">
-                            <span style="background-image:url(http://placeholder.qiniudn.com/100x100)"></span>
-                          </div>
-                          <h5>标题</h5>
-                          <i>作者</i>
-                          <p>副标题</p>
-
-                    </li>
-                </ul>
-                
+        <section class="ui-container ui-form" style="margin-bottom: 100px;">
+            {{range .timgList}}
+            <div style="margin: 10px 10px;">
+                <img src="{{.Path}}" alt="" style="width: 100%; ">
             </div>
-           
+            {{end}}
+            <i>作者</i>
+            <p>{{.theTopic.Content}}</p>
         </section>
-        
+
         <footer class="ui-footer ui-footer-btn">
             <ul class="ui-tiled ui-border-t">
-                <li data-href="index.html" class="ui-border-r"><div>城市</div></li>
-                <li data-href="ui.html" class="ui-border-r"><div>分类</div></li>
-                <li data-href="js.html"><div>登录/注册</div></li>
+                <li data-href="index.html" class="ui-border-r" onclick="getlogin('/topic/add')"><div>发布信息</div></li>
+                <li data-href="ui.html" class="ui-border-r" onclick="disk(1)"><div>分类</div></li>
+                <li data-href="js.html" onclick="getlogin('/login')"><div>登录/注册</div></li>
             </ul>
         </footer>
+        <div class="ui-dialog ui-dialog-operate ui-dialog-operate-icon show" id="layk" style="display: none;">
+            <div class="ui-dialog-cnt">
+                
+                <div class="ui-dialog-bd">
+                    <h3>选择分类</h3>
+                    {{range .typeList}}
+                    <a class="ui-btn-lg ui-btn-primary"  href="/topic/tlist?tid={{.ID}}" style="margin:10px 0px;">{{.Name}}</a>
+                    {{end}}
+                </div>
+                  <i class="ui-dialog-close" data-role="button" onclick="disk(0)"></i>
+            </div>
+        </div>
+<script>
+    function getlogin(tourl){
+        location.href = tourl;
+    }
+    function disk(nstatus){
+        var layk = document.getElementById("layk");
+        if (nstatus == 0){
+            layk.style.display = "none";
+        }else if(nstatus == 1){
+            layk.style.display = "";
+        }
+    }
+</script>
     </body>
 </html>

@@ -6,11 +6,17 @@ import(
 	"goplay/model"
 	"github.com/gin-contrib/sessions"
 	"strconv"
-	//"fmt"
+	"strings"
+	"fmt"
 )
 
 func Index(c *gin.Context) {
-	c.HTML(http.StatusOK, "m_index.html", gin.H{})
+	topicList, _ := model.GetPageTopic(0, 0)
+	typeList, _ := model.GetTopicTypeList()
+	c.HTML(http.StatusOK, "m_index.html", gin.H{
+		"typeList": typeList,
+		"topicList": topicList,
+	})
 }
 
 // 列表
@@ -18,7 +24,16 @@ func List(c *gin.Context) {
 	tid,_ := strconv.Atoi(c.DefaultQuery("tid", "0"))
 	page,_ := strconv.Atoi(c.DefaultQuery("page", "0"))
 	topicList, _ := model.GetPageTopic(tid, page)
+	typeList, _ := model.GetTopicTypeList()
+	theTypeName := ""
+	for _, tmap := range typeList{
+		if tmap.ID == tid{
+			theTypeName = tmap.Name
+		}
+	}
 	c.HTML(http.StatusOK, "m_tlist.html", gin.H{
+		"typeList": typeList,
+		"theTypeName": theTypeName,
 		"topicList": topicList,
 		"page": page,
 		"tid": tid,
@@ -28,7 +43,16 @@ func List(c *gin.Context) {
 }
 // 详情页
 func Details(c *gin.Context) {
-	c.HTML(http.StatusOK, "m_tcont.html", gin.H{})
+	tid := c.Param("tid")
+	fmt.Println(tid)
+	theTopic, _ := model.GetTopicByID(tid)
+	topicImgList, _ := model.GetTopicImgByTid(tid)
+	typeList, _ := model.GetTopicTypeList()
+	c.HTML(http.StatusOK, "m_tcont.html", gin.H{
+		"typeList": typeList,
+		"theTopic": theTopic,
+		"timgList": topicImgList,
+})
 }
 // 信息发布
 func AddTopic(c *gin.Context) {
@@ -44,8 +68,10 @@ func AddTopicApi(c *gin.Context) {
 	title := c.PostForm("title")
 	ttid,_ := strconv.Atoi(c.PostForm("type"))
 	content := c.PostForm("content")
-	mimg := c.PostForm("mimg")
+	imglist := c.PostForm("imglist")
 	
+	aImglist := strings.Split(imglist, ",")
+
     // 先到数据库查询用户名是否已用,已用的状态码是 status=3
 	titleIn := model.ExistTopicByTitle(title)
 	if titleIn {
@@ -57,13 +83,21 @@ func AddTopicApi(c *gin.Context) {
 		Uid:     session.Get("uid").(string),
 		Title: title,
         Content: content,
-        Mimg: mimg,
+        Mimg: aImglist[0],
         Status: 1,
 	}
-	err := model.AddTopic(theTopic)
+	theTid, err := model.AddTopic(theTopic)
+
 	if err != nil {
 		Response["status"] = 2
 	}else{
+		for _, filepath := range aImglist {
+			timg := &model.Timg{
+				Tmid: theTid,
+				Path: filepath,
+			}
+			model.AddTopicImg(timg)
+		}
 		Response["status"] = 1
 	}
 	

@@ -21,15 +21,15 @@ func (f *Topic) TableName() string {
 	return "topic_main"
 }
 
-func AddTopic(topic *Topic) (error) {
+func AddTopic(topic *Topic) (Tid string, err error) {
 	topic.ID = GetID()
 	topic.CreatedAt = time.Now()
 	topic.UpdatedAt = time.Now()
 
 	// 入库
-	err := db.Create(topic).Error
+	err = db.Create(topic).Error
 
-	return err
+	return topic.ID,err
 }
 
 func ExistTopicByTitle(title string) bool {

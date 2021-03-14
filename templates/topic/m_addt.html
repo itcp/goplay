@@ -69,12 +69,12 @@
             </button>
         </footer>
 <script>
+    var imgfilepath = new Array();
     function setreg(){
         var ttype = document.getElementById("type").selectedIndex;
         var title = document.getElementById("title").value;
         var content = document.getElementById("content").value;
-        var mimg = document.getElementById("mimg").value;
-        console.log(ttype);
+        console.log(imgfilepath);
         if (title == "" || content == "" || ttype == 0){
             alert("请填写必要项");
             return false;
@@ -82,7 +82,7 @@
         axios({
             method: 'post',
             url: '/topic/add',
-            data: 'type=' + ttype + '&title=' + title + '&content=' + content + "&mimg=" + mimg,
+            data: 'type=' + ttype + '&title=' + title + '&content=' + content + "&imglist=" + imgfilepath,
         }).then(function(response) {
             console.log(response.data);
         });
@@ -101,12 +101,11 @@
         
        axios.post("/uploadimg", param, config).then(function(response) {
             let mimg = document.getElementById("mimg");
-            console.log(oDom.parentNode.parentNode.lastChild);
             if (response.data.path != ""){
                 oDom.parentNode.parentNode.innerHTML += '<div class=" ui-list-img-vertical"> \
-                        <input type="hidden" value="' + response.data.path + '" /> \
                         <span style="background-image:url(' + response.data.path + ')"></span> \
                     </div>';
+                imgfilepath.push(response.data.path);
             }
             
         });

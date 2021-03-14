@@ -53,7 +53,7 @@ func InitRouter() *gin.Engine {
 	topicr := r.Group("/topic")
 	{
 		topicr.GET("/tlist", topic.List)
-		topicr.GET("/tdetails", topic.Details)
+		topicr.GET("/tdetails/:tid", topic.Details)
 	}
 	topicr.Use(auto.LoginCheck())
 	{

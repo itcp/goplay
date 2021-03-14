@@ -10,42 +10,60 @@
     </head>
     <body>
         <header class="ui-header ui-header-positive ui-border-b">
-            <h1>列表</h1>
+            <h1>首页</h1>
         </header>
-        <section class="ui-container">
+        <section class="ui-container">            
             <div class="ui-form ui-border-t">
                 <ul class="ui-list ui-border-tb">
+                    {{ range .topicList }}
                     <li>
-                        <div class=" ui-list-img-vertical">
-                            <span style="background-image:url(http://placeholder.qiniudn.com/216x308)"></span>
-                        </div>
+                        <a href="/topic/tdetails/{{.ID}}">
+                            <div class=" ui-list-img-vertical">                    
+                                <span style="background-image:url({{.Mimg}})"></span>
+                            </div>
+                        </a>
                         <div class="ui-list-info ui-border-t">
-                            <h4 class="ui-nowrap">这是标题，加ui-nowrap可以超出长度截断</h4>
-                            <p class="ui-nowrap">这是内容，加ui-nowrap可以超出长度截断</p>
+                            <a href="/topic/tdetails/{{.ID}}">
+                                <h4 class="ui-nowrap">{{.Title}}</h4>
+                            <p class="ui-nowrap">{{.Content}}</p>
+                            </a>
                         </div>
                     </li>
-                    <li>
-                        <div class="ui-list-img-vertical">
-                            <span style="background-image:url(http://placeholder.qiniudn.com/216x308)"></span>
-                        </div>
-                        <div class="ui-list-info ui-border-t">
-                            <h4>标题标题标题标题标题标题标题标题标题标题标题</h4>
-                        </div>
-                    </li>
+                    {{ end }}
                 </ul>
             </div>
         </section>
         
         <footer class="ui-footer ui-footer-btn">
             <ul class="ui-tiled ui-border-t">
-                <li data-href="index.html" class="ui-border-r"><div>城市</div></li>
-                <li data-href="ui.html" class="ui-border-r"><div>分类</div></li>
-                <li data-href="js.html" onclick="getlogin()"><div>登录/注册</div></li>
+                <li data-href="index.html" class="ui-border-r" onclick="getlogin('/topic/add')"><div>发布信息</div></li>
+                <li data-href="ui.html" class="ui-border-r" onclick="disk(1)"><div>分类</div></li>
+                <li data-href="js.html" onclick="getlogin('/login')"><div>登录/注册</div></li>
             </ul>
         </footer>
+        <div class="ui-dialog ui-dialog-operate ui-dialog-operate-icon show" id="layk" style="display: none;">
+            <div class="ui-dialog-cnt">
+                
+                <div class="ui-dialog-bd">
+                    <h3>选择分类</h3>
+                    {{range .typeList}}
+                    <a class="ui-btn-lg ui-btn-primary"  href="/topic/tlist?tid={{.ID}}" style="margin:10px 0px;">{{.Name}}</a>
+                    {{end}}
+                </div>
+                  <i class="ui-dialog-close" data-role="button" onclick="disk(0)"></i>
+            </div>
+        </div>
 <script>
-    function getlogin(){
-        location.href = "/login";
+    function getlogin(tourl){
+        location.href = tourl;
+    }
+    function disk(nstatus){
+        var layk = document.getElementById("layk");
+        if (nstatus == 0){
+            layk.style.display = "none";
+        }else if(nstatus == 1){
+            layk.style.display = "";
+        }
     }
 </script>
     </body>
